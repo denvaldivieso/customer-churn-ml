@@ -27,22 +27,27 @@ sin intentar retenerlo).
 El detalle completo del análisis está en `notebooks/01_eda.ipynb`.
 
 ## 2. Estructura del proyecto
+
+```
 customer-churn-ml/
 ├── data/
-│ ├── raw/ # dataset histórico (versionado con DVC)
-│ ├── production/ # datos para la etapa de monitoreo (entrega final)
-│ ├── scoring/ # datos de prueba para la API (entrega 2)
-│ └── metadata/ # diccionario de datos y schema
+│   ├── raw/                  # dataset histórico (versionado con DVC)
+│   ├── production/           # datos para la etapa de monitoreo (entrega final)
+│   ├── scoring/               # datos de prueba para la API (entrega 2)
+│   └── metadata/              # diccionario de datos y schema
 ├── notebooks/
-│ ├── 01_eda.ipynb # análisis exploratorio
-│ └── 02_train_test_split.ipynb # partición train/test
+│   ├── 01_eda.ipynb            # análisis exploratorio
+│   └── 02_train_test_split.ipynb   # partición train/test
 ├── src/
-│ ├── features/
-│ │ └── build_pipeline.py # pipeline de preprocesamiento
-│ └── training/
-│ └── train.py # script de entrenamiento
+│   ├── features/
+│   │   └── build_pipeline.py   # pipeline de preprocesamiento
+│   ├── training/
+│   │   └── train.py            # script de entrenamiento
+│   └── inference/               # preparado para la entrega 2
+├── app/                        # preparado para la entrega 2 (API)
 ├── requirements.txt
 └── README.md
+```
 
 ## 3. Cómo instalar el proyecto
 
@@ -51,7 +56,14 @@ Con Python 3.11 instalado, desde la raíz del proyecto: pip install -r requireme
 ## 4. Cómo recuperar los datos
 
 El dataset histórico no está en este repositorio de forma directa, está
-versionado con DVC y guardado en DagsHub. Para bajarlo: dvc pull
+versionado con DVC y guardado en DagsHub. Antes de poder bajarlo, cada
+integrante necesita configurar sus propias credenciales de acceso a ese
+repositorio (esto se hace una sola vez, la primera vez que se clona el
+proyecto). El procedimiento está documentado en la
+[documentación oficial de DVC](https://dvc.org/doc/user-guide/data-management/remote-storage/amazon-s3)
+para remotes con autenticación.
+
+Una vez configuradas las credenciales, se puede traer el dataset con: dvc pull
 
 Esto trae el archivo `data/raw/customer_churn_historical.csv` a la
 carpeta local. El repositorio en DagsHub es:
@@ -112,6 +124,6 @@ nombre `churn_logistic_regression`.
 
 Todos los experimentos incluyendo los que dieron peor resultado, como
 el Random Forest con distintas configuraciones, quedaron conservados en
-MLflow. No se borro ninguno, para de esta fomra poder consultar en cualquier momento
+MLflow. No se borró ninguno, para de esta forma poder consultar en cualquier momento
 qué se probó, con qué datos, y qué métricas dio. El proyecto de MLflow
 está conectado al mismo repositorio de DagsHub mencionado en el punto 4.
